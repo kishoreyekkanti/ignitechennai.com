@@ -7,6 +7,7 @@ class RegistrationsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @registrations }
+      format.csv  { render_as_csv @registrations, "all_registrations_#{file_name_date_string}.csv" }
     end
   end
 
@@ -81,5 +82,16 @@ class RegistrationsController < ApplicationController
       format.html { redirect_to(registrations_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def file_name_date_string
+    Time.now.strftime("%Y%m%d")
+  end
+
+  def render_as_csv results, filename
+    export_generator = ExportGenerator.new results, filename
+    csv_data = export_generator.to_csv
+    send_data(csv_data.data, csv_data.options)
   end
 end
