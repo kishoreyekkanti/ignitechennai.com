@@ -1,7 +1,16 @@
 class RegistrationsController < ApplicationController
+
+def render_404
+   # format.html { render :file => "#{Rails.root}/public/404.html", :status => :not_found }
+    render :file => "#{Rails.root}/public/404.html", :status => :not_found
+end
+
   # GET /registrations
   # GET /registrations.xml
   def index
+    if params[:secret_key].nil? || params[:secret_key] != "!abcd1234"
+      render_404() and return
+    end
     @registrations = Registration.all
 
     respond_to do |format|
