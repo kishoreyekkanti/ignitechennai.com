@@ -7,4 +7,8 @@ class HomeController < ApplicationController
   end
   def ignite_2009    
   end
+  def confirmed_speakers
+  end
+  def past_ignite_memories
+  end
 end
